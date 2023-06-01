@@ -39,8 +39,19 @@ ruta_clientes.get("/api/clientes/:DNI", (req, res) => {
     [DNI],
 
     function (err, rows) {
-      if (err) throw err;
-      res.status(200).json(rows);
+      if(err){
+
+        const mensaje_error = [];
+
+        if(DNI != req.body.DNI){
+          mensaje_error.push={ mensaje:`no se encontro el cliente con id: ${DNI}`} 
+          return res.status(200).json(mensaje_error)
+      }
+          }else{ 
+            res.status(200).json(rows);
+       
+           }
+          
     }
   );
 });
@@ -62,7 +73,7 @@ ruta_clientes.post("/api/clientes", (req, res) => {
           mensaje_error.push("El nombre no puede ser vacio");
         }
         if (!apellido) {
-          mensaje_error.push("El aprllido no puede ser vaci0");
+          mensaje_error.push("El aprllido no puede ser vacio");
         }
         if (!email) {
           mensaje_error.push("El email no puede ser vacio");
